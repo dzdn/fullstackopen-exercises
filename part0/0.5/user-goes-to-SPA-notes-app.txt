@@ -1,0 +1,17 @@
+title user goes to SPA notes app
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+
+note over browser:
+browser starts executing spa.ja, which tells it to request JSON data from server
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "hello tomorrow is 15 october", date: "2022-10-15T09:53:56.750Z" }, ...]
+
+note over browser:
+spa.js tells browser to redraw list
+end note
