@@ -1,0 +1,21 @@
+title user creates a new note on page
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML-code
+
+note over browser:
+(leaving out additional requests for other page resources)
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+
+note over browser:
+request contains text user entered for note
+server adds new note with that text to "database"
+end note
+
+server-->browser: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+
+note over server:
+server sends 304 redirect to tell browser to reload notes page
+end note
