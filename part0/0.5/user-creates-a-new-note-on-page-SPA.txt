@@ -1,0 +1,19 @@
+title user creates a new note on page (SPA)
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code (+ .js, .css, etc.)
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+
+note over browser:
+request contains text user entered for note
+server adds new note with that text to "database"
+end note
+
+server-->browser: [{"message": "note created"}]
+browser->server: (request updated list data)
+server-->browser: [new list data]
+
+note over browser:
+spa.js tells browser to redraw list
+end note
