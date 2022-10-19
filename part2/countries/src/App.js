@@ -28,7 +28,7 @@ function App() {
         <div>Too many countries, specify another filter</div>
       }
       {countriesToShow.length <= 10 && countriesToShow.length >1 &&
-        <div>{countriesToShow.map(country => <div key={country.name.official}>{country.name.official}</div>)}</div>
+        <div>{countriesToShow.map(country => <div key={country.name.official}>{country.name.official}<button onClick={() => setNewFilter(country.name.official)}>show</button></div>)}</div>
       }
       {countriesToShow.length == 1 &&
         <div>
