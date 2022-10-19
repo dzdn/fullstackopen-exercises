@@ -56,6 +56,16 @@ const App = () => {
     setNewFilter(event.target.value)
   }
 
+  const handleDelete = (deletedPerson) => {
+    if (window.confirm(`Delete ${deletedPerson.name}?`)) {
+      personService
+        .destroy(deletedPerson.id)
+        .then(returnedPerson => {
+          setPersons(persons.filter(person => person.id !== deletedPerson.id))
+        })
+      }
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
@@ -63,7 +73,7 @@ const App = () => {
       <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
       {personsToShow.map(person =>
-        <Person key={person.id} person={person} />)}
+        <Person key={person.id} person={person} onDelete={() => handleDelete(person)} />)}
     </div>
   );
 }
