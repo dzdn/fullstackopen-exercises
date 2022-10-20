@@ -4,6 +4,7 @@ import axios from 'axios'
 import Person from './components/Person'
 import PersonForm from './components/PersonForm'
 import PersonFilter from './components/PersonFilter'
+import Notification from './components/Notification'
 
 import personService from './services/persons'
 
@@ -12,6 +13,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setNewFilter] = useState('')
+  const [notification, setNotification] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
   
@@ -39,22 +42,37 @@ const App = () => {
           .update(changedPersonObject.id, changedPersonObject)
           .then(returnedPerson => {
             setPersons(persons.map(person => person.id !== changedPersonObject.id ? person : returnedPerson))
+            setNotification(`Updated ${returnedPerson.name}`)
+            setTimeout(() => {
+              setNotification(null)
+            }, 3000)
+          })
+          .catch(error => {
+            setErrorMessage(`Information of ${newName} has already been removed from server`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
+            setPersons(persons.filter(n => n.id !== changedPersonObject.id))
           })
       }
     } else {
-      const personObject = {
-        name: newName,
-        number: newNumber,
-        id: persons.length + 1
-      }
+        const personObject = {
+          name: newName,
+          number: newNumber,
+          id: persons.length + 1
+        }
 
-      personService
-        .create(personObject)
-        .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
-          setNewName('')
-          setNewNumber('')
-        })
+        personService
+          .create(personObject)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+            setNotification(`Added ${personObject.name}`)
+            setTimeout(() => {
+              setNotification(null)
+            }, 3000)
+          })
       }
   }
 
@@ -79,6 +97,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={notification} className="notification" />
+      <Notification message={errorMessage} className="error" />
       <PersonFilter filter={filter} handleFilterChange={handleFilterChange} />
       <PersonForm addPerson={addPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} />
       <h2>Numbers</h2>
