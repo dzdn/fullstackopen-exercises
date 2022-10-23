@@ -73,6 +73,10 @@ const App = () => {
               setNotification(null)
             }, 3000)
           })
+          .catch(error => {
+            console.log(error.response.data.error)
+            setErrorMessage(error.response.data.error)
+          })
       }
   }
 
